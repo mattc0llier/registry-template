@@ -1,16 +1,14 @@
-import { NextResponse } from "next/server"
+import { NextRequest, NextResponse } from 'next/server';
 import path from "path"
 import { promises as fs } from "fs"
 import { registryItemSchema } from "shadcn/registry"
 
 // This route shows an example for serving a component using a route handler.
 export async function GET(
-  request: Request,
-  { params }: { params: { name: string } }
-) {
+  request: NextRequest,
+  { params }: { params: Promise<{ name: string }> }) {
   try {
-    const { name } = params
-    // Cache the registry import
+    const { name } = await params    // Cache the registry import
     const registryData = await import("@/registry.json")
     const registry = registryData.default
 
